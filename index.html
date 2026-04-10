@@ -102,6 +102,164 @@
         }
         .app-content { display: none; }
         .app-content.visible { display: block; }
+
+        /* ========= INTERNAL TABS ========= */
+        .card-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 1.75rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+        .card-tab {
+            padding: 0.75rem 1.5rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--gray-400);
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s ease;
+            letter-spacing: 0.2px;
+        }
+        .card-tab:hover { color: var(--blue-500); }
+        .card-tab.active {
+            color: var(--blue-600);
+            font-weight: 600;
+        }
+        .card-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0; right: 0;
+            height: 2px;
+            background: var(--blue-600);
+            border-radius: 2px 2px 0 0;
+        }
+        .card-tab .tab-icon {
+            margin-right: 0.4rem;
+            font-size: 0.9rem;
+        }
+        .tab-panel { display: none; }
+        .tab-panel.active {
+            display: block;
+            animation: fadeUp 0.25s ease-out;
+        }
+
+        /* ========= QUICK WIN HERO ========= */
+        .qw-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+        .qw-weakness {
+            background: linear-gradient(135deg, #FEF0F0 0%, #FFF6F6 100%);
+            border: 1px solid var(--red-border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+        .qw-weakness h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--red);
+            margin-bottom: 0.6rem;
+        }
+        .qw-weakness p {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        .qw-edge {
+            background: linear-gradient(135deg, #ECFAF3 0%, #F4FDF8 100%);
+            border: 1px solid var(--green-border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+        .qw-edge h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--green);
+            margin-bottom: 0.6rem;
+        }
+        .qw-edge p {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        .qw-top3 {
+            margin-bottom: 1.75rem;
+        }
+        .qw-top3-item {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            gap: 0.85rem;
+            align-items: flex-start;
+            box-shadow: var(--shadow-sm);
+        }
+        .qw-top3-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--blue-300);
+            line-height: 1;
+            min-width: 24px;
+        }
+        .qw-top3-text {
+            font-size: 0.88rem;
+            color: var(--gray-600);
+            line-height: 1.55;
+        }
+        .qw-top3-text strong { color: var(--navy); }
+
+        /* ========= QUICK STATS ROW ========= */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+        }
+        .qs-item {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .qs-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-400);
+            margin-bottom: 0.35rem;
+        }
+        .qs-us {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--blue-600);
+        }
+        .qs-vs {
+            font-size: 0.7rem;
+            color: var(--gray-300);
+            margin: 0.15rem 0;
+        }
+        .qs-them {
+            font-size: 0.82rem;
+            color: var(--gray-500);
+        }
         :root {
             --blue-600: #0056B3;
             --blue-500: #3289FF;
@@ -1121,6 +1279,13 @@ C.forEach((c,i) => {
 
 // Build cards
 const main = document.getElementById('mainContent');
+
+function switchTab(cardId, tabName) {
+    const card = document.getElementById('card-' + cardId);
+    card.querySelectorAll('.card-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+    card.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tabName));
+}
+
 C.forEach((c,idx) => {
     const dims = [
         {d:"Core Positioning", us:TECH.positioning, them:c.positioning, w:"win"},
@@ -1146,95 +1311,163 @@ C.forEach((c,idx) => {
         <div class="kl-text">${c.killer}</div>
     </div>
 
-    <!-- Overview -->
-    <div class="section-title"><h2>Head-to-Head</h2></div>
-    <div class="overview-grid">
-        <div class="overview-box is-us">
-            <div class="ob-header"><h3>Techolution</h3><span class="ob-tag ob-tag-us">Us</span></div>
-            <div class="ob-row"><span class="ob-key">Type</span><span class="ob-val">Full Enterprise Automation</span></div>
-            <div class="ob-row"><span class="ob-key">Positioning</span><span class="ob-val">${TECH.positioning}</span></div>
-            <div class="ob-row"><span class="ob-key">Speed</span><span class="ob-val">${TECH.speed}</span></div>
-            <div class="ob-row"><span class="ob-key">Pricing</span><span class="ob-val">${TECH.pricing}</span></div>
-            <div class="ob-row"><span class="ob-key">Risk</span><span class="ob-val">${TECH.risk}</span></div>
-            <div class="ob-row"><span class="ob-key">AI Depth</span><span class="ob-val">${TECH.aiDepth}</span></div>
+    <!-- TABS -->
+    <div class="card-tabs">
+        <button class="card-tab active" data-tab="quickwin" onclick="switchTab('${c.id}','quickwin')">
+            <span class="tab-icon">&#9889;</span>Quick Win
+        </button>
+        <button class="card-tab" data-tab="battle" onclick="switchTab('${c.id}','battle')">
+            <span class="tab-icon">&#9876;</span>Battle
+        </button>
+        <button class="card-tab" data-tab="deepdive" onclick="switchTab('${c.id}','deepdive')">
+            <span class="tab-icon">&#128269;</span>Deep Dive
+        </button>
+    </div>
+
+    <!-- ==================== TAB: QUICK WIN ==================== -->
+    <div class="tab-panel active" data-panel="quickwin">
+
+        <!-- Weakness + Edge side by side -->
+        <div class="qw-grid">
+            <div class="qw-weakness">
+                <h4>${c.name}'s Weakness</h4>
+                <p>${c.vsLine}</p>
+            </div>
+            <div class="qw-edge">
+                <h4>Our Edge</h4>
+                <p>BPA 4.0 + AI Shoring + GGC governance. Guaranteed ROI in &lt;30 days, fixed-bid pricing, money-back if we don't deliver.</p>
+            </div>
         </div>
-        <div class="overview-box is-them">
-            <div class="ob-header"><h3>${c.name}</h3><span class="ob-tag ob-tag-them">Them</span></div>
-            <div class="ob-row"><span class="ob-key">Type</span><span class="ob-val">${c.type}</span></div>
-            <div class="ob-row"><span class="ob-key">Positioning</span><span class="ob-val">${c.positioning}</span></div>
-            <div class="ob-row"><span class="ob-key">Speed</span><span class="ob-val">${c.speed}</span></div>
-            <div class="ob-row"><span class="ob-key">Pricing</span><span class="ob-val">${c.pricing}</span></div>
-            <div class="ob-row"><span class="ob-key">Risk</span><span class="ob-val">${c.risk}</span></div>
-            <div class="ob-row"><span class="ob-key">AI Depth</span><span class="ob-val">${c.aiDepth}</span></div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="qs-item">
+                <div class="qs-label">Speed</div>
+                <div class="qs-us">${TECH.speed}</div>
+                <div class="qs-vs">vs</div>
+                <div class="qs-them">${c.speed}</div>
+            </div>
+            <div class="qs-item">
+                <div class="qs-label">Pricing</div>
+                <div class="qs-us">${TECH.pricing}</div>
+                <div class="qs-vs">vs</div>
+                <div class="qs-them">${c.pricing}</div>
+            </div>
+            <div class="qs-item">
+                <div class="qs-label">Risk</div>
+                <div class="qs-us">${TECH.risk}</div>
+                <div class="qs-vs">vs</div>
+                <div class="qs-them">${c.risk}</div>
+            </div>
+        </div>
+
+        <!-- Top 3 Talking Points -->
+        <div class="section-title"><h2>Top 3 Talking Points</h2></div>
+        <div class="qw-top3">
+            ${c.tp.slice(0,3).map((t,i)=>`
+            <div class="qw-top3-item">
+                <div class="qw-top3-num">${i+1}</div>
+                <div class="qw-top3-text">${t}</div>
+            </div>`).join('')}
+        </div>
+
+        <!-- Mini Cheat Sheet -->
+        <div class="cheat-sheet">
+            <div class="cs-title">Techolution vs ${c.name} — At a Glance</div>
+            <div class="cs-row"><span class="cs-key">They Say</span><span class="cs-val">"${c.hook}"</span></div>
+            <div class="cs-row"><span class="cs-key">We Say</span><span class="cs-val cs-val-accent">"${TECH.hook}" — with a money-back guarantee</span></div>
+            <div class="cs-row"><span class="cs-key">Weakness</span><span class="cs-val cs-val-red">${c.vsLine}</span></div>
+            <div class="cs-row"><span class="cs-key">Our Edge</span><span class="cs-val cs-val-green">BPA 4.0 + AI Shoring + GGC governance + Money-back ROI guarantee</span></div>
         </div>
     </div>
 
-    <!-- Table -->
-    <div class="section-title"><h2>Dimension Comparison</h2></div>
-    <div class="table-wrap">
-        <table class="comp-table">
-            <thead><tr><th>Dimension</th><th>Techolution</th><th>${c.name}</th><th>Edge</th></tr></thead>
-            <tbody>${dims.map(d=>`<tr>
-                <td class="col-dim">${d.d}</td>
-                <td class="col-us">${d.us}</td>
-                <td class="col-them">${d.them}</td>
-                <td class="col-edge">${d.w==='win'?'<span class="edge-win">Techolution</span>':'<span class="edge-even">Even</span>'}</td>
-            </tr>`).join('')}</tbody>
-        </table>
-    </div>
+    <!-- ==================== TAB: BATTLE ==================== -->
+    <div class="tab-panel" data-panel="battle">
 
-    <!-- Weakness -->
-    <div class="section-title"><h2>Their Core Weakness</h2></div>
-    <div class="weakness-box">
-        <div class="weakness-icon">!</div>
-        <div>
-            <h4>${c.name}'s Achilles Heel</h4>
-            <p>${c.vsLine}</p>
+        <!-- Objections -->
+        <div class="section-title"><h2>Objection Handler — "But what about ${c.name}?"</h2></div>
+        <div class="objections-grid">${c.objections.map(o=>`
+            <div class="objection-card">
+                <div class="oc-objection">"${o.o}"</div>
+                <div class="oc-rebuttal">${o.r}</div>
+                <div class="oc-detail">${o.d}</div>
+            </div>`).join('')}
+        </div>
+
+        <!-- All Talking Points -->
+        <div class="section-title"><h2>All Talking Points</h2></div>
+        <div class="tp-grid">${c.tp.map((t,i)=>`
+            <div class="tp-card">
+                <div class="tp-num">${i+1}</div>
+                <div class="tp-text">${t}</div>
+            </div>`).join('')}
         </div>
     </div>
 
-    <!-- Objections -->
-    <div class="section-title"><h2>Objection Handler</h2></div>
-    <div class="objections-grid">${c.objections.map(o=>`
-        <div class="objection-card">
-            <div class="oc-objection">"${o.o}"</div>
-            <div class="oc-rebuttal">${o.r}</div>
-            <div class="oc-detail">${o.d}</div>
-        </div>`).join('')}
-    </div>
+    <!-- ==================== TAB: DEEP DIVE ==================== -->
+    <div class="tab-panel" data-panel="deepdive">
 
-    <!-- Talking Points -->
-    <div class="section-title"><h2>Quick Talking Points</h2></div>
-    <div class="tp-grid">${c.tp.map((t,i)=>`
-        <div class="tp-card">
-            <div class="tp-num">${i+1}</div>
-            <div class="tp-text">${t}</div>
-        </div>`).join('')}
-    </div>
+        <!-- Head-to-Head Overview -->
+        <div class="section-title"><h2>Head-to-Head</h2></div>
+        <div class="overview-grid">
+            <div class="overview-box is-us">
+                <div class="ob-header"><h3>Techolution</h3><span class="ob-tag ob-tag-us">Us</span></div>
+                <div class="ob-row"><span class="ob-key">Type</span><span class="ob-val">Full Enterprise Automation</span></div>
+                <div class="ob-row"><span class="ob-key">Positioning</span><span class="ob-val">${TECH.positioning}</span></div>
+                <div class="ob-row"><span class="ob-key">Speed</span><span class="ob-val">${TECH.speed}</span></div>
+                <div class="ob-row"><span class="ob-key">Pricing</span><span class="ob-val">${TECH.pricing}</span></div>
+                <div class="ob-row"><span class="ob-key">Risk</span><span class="ob-val">${TECH.risk}</span></div>
+                <div class="ob-row"><span class="ob-key">AI Depth</span><span class="ob-val">${TECH.aiDepth}</span></div>
+            </div>
+            <div class="overview-box is-them">
+                <div class="ob-header"><h3>${c.name}</h3><span class="ob-tag ob-tag-them">Them</span></div>
+                <div class="ob-row"><span class="ob-key">Type</span><span class="ob-val">${c.type}</span></div>
+                <div class="ob-row"><span class="ob-key">Positioning</span><span class="ob-val">${c.positioning}</span></div>
+                <div class="ob-row"><span class="ob-key">Speed</span><span class="ob-val">${c.speed}</span></div>
+                <div class="ob-row"><span class="ob-key">Pricing</span><span class="ob-val">${c.pricing}</span></div>
+                <div class="ob-row"><span class="ob-key">Risk</span><span class="ob-val">${c.risk}</span></div>
+                <div class="ob-row"><span class="ob-key">AI Depth</span><span class="ob-val">${c.aiDepth}</span></div>
+            </div>
+        </div>
 
-    <!-- Intel -->
-    <div class="section-title"><h2>Content & Marketing Intel</h2></div>
-    <div class="intel-grid">
-        <div class="intel-card"><h4>Their Positioning</h4><p>${c.intel.pos}</p></div>
-        <div class="intel-card"><h4>Their Strengths</h4><p>${c.intel.str}</p></div>
-        <div class="intel-card"><h4>Their Weaknesses</h4><p>${c.intel.weak}</p></div>
-        <div class="intel-card"><h4>Their Hooks</h4><p>${c.intel.hooks}</p></div>
-    </div>
+        <!-- Dimension Table -->
+        <div class="section-title"><h2>Dimension Comparison</h2></div>
+        <div class="table-wrap">
+            <table class="comp-table">
+                <thead><tr><th>Dimension</th><th>Techolution</th><th>${c.name}</th><th>Edge</th></tr></thead>
+                <tbody>${dims.map(d=>`<tr>
+                    <td class="col-dim">${d.d}</td>
+                    <td class="col-us">${d.us}</td>
+                    <td class="col-them">${d.them}</td>
+                    <td class="col-edge">${d.w==='win'?'<span class="edge-win">Techolution</span>':'<span class="edge-even">Even</span>'}</td>
+                </tr>`).join('')}</tbody>
+            </table>
+        </div>
 
-    <!-- Cheat Sheet -->
-    <div class="section-title"><h2>Quick Reference</h2></div>
-    <div class="cheat-sheet">
-        <div class="cs-title">Techolution vs ${c.name}</div>
-        <div class="cs-row"><span class="cs-key">They Say</span><span class="cs-val">"${c.hook}"</span></div>
-        <div class="cs-row"><span class="cs-key">We Say</span><span class="cs-val cs-val-accent">"${TECH.hook}" — with a money-back guarantee</span></div>
-        <div class="cs-row"><span class="cs-key">Their Speed</span><span class="cs-val">${c.speed}</span></div>
-        <div class="cs-row"><span class="cs-key">Our Speed</span><span class="cs-val cs-val-accent">${TECH.speed}</span></div>
-        <div class="cs-row"><span class="cs-key">Their Risk</span><span class="cs-val">${c.risk}</span></div>
-        <div class="cs-row"><span class="cs-key">Our Risk</span><span class="cs-val cs-val-green">${TECH.risk}</span></div>
-        <div class="cs-row"><span class="cs-key">Their Pricing</span><span class="cs-val">${c.pricing}</span></div>
-        <div class="cs-row"><span class="cs-key">Our Pricing</span><span class="cs-val cs-val-accent">${TECH.pricing}</span></div>
-        <div class="cs-row"><span class="cs-key">Weakness</span><span class="cs-val cs-val-red">${c.vsLine}</span></div>
-        <div class="cs-row"><span class="cs-key">Our Edge</span><span class="cs-val cs-val-green">BPA 4.0 + AI Shoring + GGC governance + Money-back ROI guarantee</span></div>
+        <!-- Content Intel -->
+        <div class="section-title"><h2>Content & Marketing Intel</h2></div>
+        <div class="intel-grid">
+            <div class="intel-card"><h4>Their Positioning</h4><p>${c.intel.pos}</p></div>
+            <div class="intel-card"><h4>Their Strengths</h4><p>${c.intel.str}</p></div>
+            <div class="intel-card"><h4>Their Weaknesses</h4><p>${c.intel.weak}</p></div>
+            <div class="intel-card"><h4>Their Hooks</h4><p>${c.intel.hooks}</p></div>
+        </div>
+
+        <!-- Full Cheat Sheet -->
+        <div class="section-title"><h2>Full Reference</h2></div>
+        <div class="cheat-sheet">
+            <div class="cs-title">Techolution vs ${c.name} — Complete</div>
+            <div class="cs-row"><span class="cs-key">They Say</span><span class="cs-val">"${c.hook}"</span></div>
+            <div class="cs-row"><span class="cs-key">We Say</span><span class="cs-val cs-val-accent">"${TECH.hook}" — with a money-back guarantee</span></div>
+            <div class="cs-row"><span class="cs-key">Their Speed</span><span class="cs-val">${c.speed}</span></div>
+            <div class="cs-row"><span class="cs-key">Our Speed</span><span class="cs-val cs-val-accent">${TECH.speed}</span></div>
+            <div class="cs-row"><span class="cs-key">Their Risk</span><span class="cs-val">${c.risk}</span></div>
+            <div class="cs-row"><span class="cs-key">Our Risk</span><span class="cs-val cs-val-green">${TECH.risk}</span></div>
+            <div class="cs-row"><span class="cs-key">Their Pricing</span><span class="cs-val">${c.pricing}</span></div>
+            <div class="cs-row"><span class="cs-key">Our Pricing</span><span class="cs-val cs-val-accent">${TECH.pricing}</span></div>
+            <div class="cs-row"><span class="cs-key">Weakness</span><span class="cs-val cs-val-red">${c.vsLine}</span></div>
+            <div class="cs-row"><span class="cs-key">Our Edge</span><span class="cs-val cs-val-green">BPA 4.0 + AI Shoring + GGC governance + Money-back ROI guarantee</span></div>
+        </div>
     </div>`;
 
     main.appendChild(card);
