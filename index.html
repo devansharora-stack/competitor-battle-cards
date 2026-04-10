@@ -7,7 +7,101 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
+        /* ========= AUTH GATE ========= */
+        .auth-gate {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--off-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .auth-gate.hidden { display: none; }
+        .auth-card {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: 16px;
+            padding: 3rem 3.5rem;
+            text-align: center;
+            box-shadow: 0 16px 48px rgba(10,22,40,0.08);
+            max-width: 420px;
+            width: 90%;
+        }
+        .auth-card h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 0.35rem;
+        }
+        .auth-card h1 span { color: var(--blue-600); }
+        .auth-card p {
+            color: var(--gray-400);
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+        }
+        .auth-card .auth-error {
+            color: var(--red);
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        .auth-card .auth-error.show { display: block; }
+        #g_id_onload, .g_id_signin {
+            display: flex;
+            justify-content: center;
+        }
+        .auth-user {
+            position: fixed;
+            top: 0; right: 0;
+            z-index: 200;
+            padding: 0.6rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--white);
+            border-bottom-left-radius: 10px;
+            border-left: 1px solid var(--gray-100);
+            border-bottom: 1px solid var(--gray-100);
+            box-shadow: var(--shadow-sm);
+        }
+        .auth-user img {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            border: 1.5px solid var(--blue-200);
+        }
+        .auth-user-info {
+            font-size: 0.75rem;
+            line-height: 1.3;
+        }
+        .auth-user-name {
+            font-weight: 600;
+            color: var(--navy);
+        }
+        .auth-user-email {
+            color: var(--gray-400);
+        }
+        .auth-user button {
+            background: none;
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            color: var(--gray-400);
+            font-size: 0.65rem;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            margin-left: 0.25rem;
+            transition: all 0.2s;
+        }
+        .auth-user button:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        .app-content { display: none; }
+        .app-content.visible { display: block; }
         :root {
             --blue-600: #0056B3;
             --blue-500: #3289FF;
@@ -599,6 +693,29 @@
 </head>
 <body>
 
+<!-- AUTH GATE -->
+<div class="auth-gate" id="authGate">
+    <div class="auth-card">
+        <h1><span>Techolution</span> Battle Cards</h1>
+        <p>Sign in with your @techolution.com account to access competitor intelligence.</p>
+        <div id="googleSignInBtn"></div>
+        <div class="auth-error" id="authError">Access restricted to @techolution.com accounts only.</div>
+    </div>
+</div>
+
+<!-- USER BADGE (shown after login) -->
+<div class="auth-user" id="authUser" style="display:none;">
+    <img id="authAvatar" src="" alt="">
+    <div class="auth-user-info">
+        <div class="auth-user-name" id="authName"></div>
+        <div class="auth-user-email" id="authEmail"></div>
+    </div>
+    <button onclick="handleSignOut()">Sign out</button>
+</div>
+
+<!-- APP CONTENT (hidden until auth) -->
+<div class="app-content" id="appContent">
+
 <!-- HEADER -->
 <div class="header">
     <div class="header-inner">
@@ -1122,6 +1239,90 @@ C.forEach((c,idx) => {
 
     main.appendChild(card);
 });
+</script>
+
+</div><!-- /app-content -->
+
+<script>
+const GOOGLE_CLIENT_ID = '543793204047-nk7r7pgvulfibr96vvl9r2faiqb0bj8f.apps.googleusercontent.com';
+const ALLOWED_DOMAIN = 'techolution.com';
+
+function decodeJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(decodeURIComponent(atob(base64).split('').map(c =>
+        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join('')));
+}
+
+function handleCredentialResponse(response) {
+    const user = decodeJwt(response.credential);
+    const email = user.email || '';
+    const domain = email.split('@')[1];
+
+    if (domain !== ALLOWED_DOMAIN) {
+        document.getElementById('authError').classList.add('show');
+        return;
+    }
+
+    // Store session
+    sessionStorage.setItem('auth_token', response.credential);
+    sessionStorage.setItem('auth_user', JSON.stringify(user));
+    showApp(user);
+}
+
+function showApp(user) {
+    document.getElementById('authGate').classList.add('hidden');
+    document.getElementById('appContent').classList.add('visible');
+
+    // Show user badge
+    const badge = document.getElementById('authUser');
+    badge.style.display = 'flex';
+    document.getElementById('authAvatar').src = user.picture || '';
+    document.getElementById('authName').textContent = user.name || '';
+    document.getElementById('authEmail').textContent = user.email || '';
+}
+
+function handleSignOut() {
+    sessionStorage.removeItem('auth_token');
+    sessionStorage.removeItem('auth_user');
+    document.getElementById('authGate').classList.remove('hidden');
+    document.getElementById('appContent').classList.remove('visible');
+    document.getElementById('authUser').style.display = 'none';
+    document.getElementById('authError').classList.remove('show');
+
+    // Re-render sign-in button
+    google.accounts.id.renderButton(document.getElementById('googleSignInBtn'), {
+        theme: 'outline', size: 'large', width: 280, text: 'signin_with', shape: 'pill'
+    });
+}
+
+window.onload = function() {
+    // Check existing session
+    const stored = sessionStorage.getItem('auth_user');
+    if (stored) {
+        try {
+            const user = JSON.parse(stored);
+            const domain = (user.email || '').split('@')[1];
+            if (domain === ALLOWED_DOMAIN) {
+                showApp(user);
+                return;
+            }
+        } catch(e) {}
+        sessionStorage.removeItem('auth_token');
+        sessionStorage.removeItem('auth_user');
+    }
+
+    // Initialize Google Sign-In
+    google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleCredentialResponse,
+        auto_select: false
+    });
+    google.accounts.id.renderButton(document.getElementById('googleSignInBtn'), {
+        theme: 'outline', size: 'large', width: 280, text: 'signin_with', shape: 'pill'
+    });
+};
 </script>
 </body>
 </html>
