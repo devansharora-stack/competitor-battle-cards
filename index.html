@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techolution — Competitor Battle Cards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue-600: #0056B3;
+            --blue-500: #3289FF;
+            --blue-400: #5CA0FF;
+            --blue-300: #8BBDFF;
+            --blue-200: #B8D8FF;
+            --blue-100: #E8F2FF;
+            --blue-50: #F4F8FF;
+            --navy: #0A1628;
+            --navy-light: #1A2A44;
+            --white: #FFFFFF;
+            --off-white: #FAFBFD;
+            --gray-50: #F6F7F9;
+            --gray-100: #ECEEF2;
+            --gray-200: #D8DCE4;
+            --gray-300: #B4BBC8;
+            --gray-400: #8C95A6;
+            --gray-500: #636E80;
+            --gray-600: #434D5E;
+            --gray-700: #2E3746;
+            --green: #0B9A5E;
+            --green-bg: #ECFAF3;
+            --green-border: #B5E8D0;
+            --red: #D93B3B;
+            --red-bg: #FEF0F0;
+            --red-border: #F5C0C0;
+            --amber: #C47F17;
+            --amber-bg: #FFF8EB;
+            --shadow-sm: 0 1px 2px rgba(10,22,40,0.04);
+            --shadow-md: 0 4px 16px rgba(10,22,40,0.06);
+            --shadow-lg: 0 8px 32px rgba(10,22,40,0.08);
+            --shadow-xl: 0 16px 48px rgba(10,22,40,0.10);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--off-white);
+            color: var(--navy);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========= HEADER ========= */
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-100);
+            padding: 0 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue-600), var(--blue-500), var(--blue-400));
+        }
+        .header-inner {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 2rem 0 1.75rem;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--navy);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+        .header-title span {
+            color: var(--blue-600);
+        }
+        .header-sub {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        /* ========= EDGE STRIP ========= */
+        .edge-strip {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-100);
+            padding: 0 3rem;
+        }
+        .edge-strip-inner {
+            max-width: 1360px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+        }
+        .edge-item {
+            padding: 1.25rem 1.5rem;
+            border-right: 1px solid var(--gray-100);
+            animation: fadeUp 0.5s ease-out both;
+        }
+        .edge-item:last-child { border-right: none; }
+        .edge-item:nth-child(1) { animation-delay: 0.05s; }
+        .edge-item:nth-child(2) { animation-delay: 0.1s; }
+        .edge-item:nth-child(3) { animation-delay: 0.15s; }
+        .edge-item:nth-child(4) { animation-delay: 0.2s; }
+        .edge-item:nth-child(5) { animation-delay: 0.25s; }
+        .edge-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--blue-600);
+        }
+        .edge-label {
+            font-size: 0.7rem;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.15rem;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========= COMPETITOR NAV ========= */
+        .competitor-nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-100);
+            padding: 0 3rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        .competitor-nav-inner {
+            max-width: 1360px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0.25rem;
+            padding: 0.75rem 0;
+            overflow-x: auto;
+        }
+        .comp-btn {
+            padding: 0.5rem 1.15rem;
+            border: 1.5px solid var(--gray-200);
+            background: var(--white);
+            color: var(--gray-500);
+            border-radius: 100px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            letter-spacing: 0.2px;
+        }
+        .comp-btn:hover {
+            border-color: var(--blue-500);
+            color: var(--blue-600);
+            background: var(--blue-50);
+        }
+        .comp-btn.active {
+            background: var(--blue-600);
+            border-color: var(--blue-600);
+            color: var(--white);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(50,137,255,0.25);
+        }
+
+        /* ========= MAIN ========= */
+        .main {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 2rem 3rem 4rem;
+        }
+
+        /* ========= BATTLE CARD ========= */
+        .battle-card { display: none; }
+        .battle-card.active {
+            display: block;
+            animation: cardIn 0.35s ease-out;
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========= KILLER LINE ========= */
+        .killer-line {
+            background: linear-gradient(135deg, var(--blue-600) 0%, var(--navy-light) 100%);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .killer-line::after {
+            content: '';
+            position: absolute;
+            top: -50%; right: -10%;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(50,137,255,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .killer-line .kl-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--blue-300);
+            margin-bottom: 0.75rem;
+        }
+        .killer-line .kl-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--white);
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========= SECTION TITLES ========= */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            margin-top: 0.5rem;
+        }
+        .section-title h2 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--blue-600);
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gray-200);
+        }
+
+        /* ========= OVERVIEW GRID ========= */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+        .overview-box {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s ease;
+        }
+        .overview-box:hover { box-shadow: var(--shadow-md); }
+        .overview-box.is-us {
+            border-top: 3px solid var(--blue-500);
+        }
+        .overview-box.is-them {
+            border-top: 3px solid var(--gray-300);
+        }
+        .ob-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1.1rem;
+        }
+        .ob-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .ob-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            font-weight: 500;
+        }
+        .ob-tag-us { background: var(--blue-100); color: var(--blue-600); }
+        .ob-tag-them { background: var(--gray-50); color: var(--gray-500); }
+        .ob-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.45rem 0;
+            border-bottom: 1px solid var(--gray-50);
+            font-size: 0.85rem;
+        }
+        .ob-row:last-child { border-bottom: none; }
+        .ob-key { color: var(--gray-400); font-weight: 400; }
+        .ob-val { color: var(--navy); font-weight: 500; text-align: right; max-width: 60%; }
+
+        /* ========= COMPARISON TABLE ========= */
+        .table-wrap {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2.5rem;
+        }
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+        .comp-table thead { background: var(--gray-50); }
+        .comp-table th {
+            text-align: left;
+            padding: 0.85rem 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-400);
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .comp-table td {
+            padding: 0.8rem 1.25rem;
+            border-bottom: 1px solid var(--gray-50);
+            vertical-align: top;
+        }
+        .comp-table tbody tr {
+            transition: background 0.15s ease;
+        }
+        .comp-table tbody tr:hover { background: var(--blue-50); }
+        .comp-table tbody tr:last-child td { border-bottom: none; }
+        .col-dim { color: var(--gray-500); font-weight: 600; width: 150px; }
+        .col-us { color: var(--blue-600); font-weight: 500; }
+        .col-them { color: var(--navy); }
+        .col-edge { font-weight: 600; font-size: 0.75rem; }
+        .edge-win {
+            color: var(--green);
+            background: var(--green-bg);
+            padding: 0.15rem 0.6rem;
+            border-radius: 100px;
+            display: inline-block;
+        }
+        .edge-even {
+            color: var(--amber);
+            background: var(--amber-bg);
+            padding: 0.15rem 0.6rem;
+            border-radius: 100px;
+            display: inline-block;
+        }
+
+        /* ========= WEAKNESS BOX ========= */
+        .weakness-box {
+            background: var(--red-bg);
+            border: 1px solid var(--red-border);
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .weakness-icon {
+            width: 36px; height: 36px; min-width: 36px;
+            background: var(--red);
+            color: var(--white);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            margin-top: 2px;
+        }
+        .weakness-box h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--red);
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+        .weakness-box p {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        /* ========= OBJECTION CARDS ========= */
+        .objections-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+        }
+        .objection-card {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+            cursor: default;
+        }
+        .objection-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+        .oc-objection {
+            font-style: italic;
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-bottom: 0.6rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--gray-200);
+        }
+        .oc-rebuttal {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--blue-600);
+            margin-bottom: 0.35rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: baseline;
+        }
+        .oc-rebuttal::before {
+            content: '';
+            width: 6px; height: 6px;
+            min-width: 6px;
+            background: var(--blue-500);
+            border-radius: 50%;
+            margin-top: 6px;
+        }
+        .oc-detail {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            padding-left: 1rem;
+            line-height: 1.5;
+        }
+
+        /* ========= TALKING POINTS ========= */
+        .tp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+        }
+        .tp-card {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius-sm);
+            padding: 1.15rem 1.25rem;
+            display: flex;
+            gap: 0.85rem;
+            align-items: flex-start;
+            box-shadow: var(--shadow-sm);
+        }
+        .tp-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--blue-200);
+            line-height: 1;
+            min-width: 28px;
+        }
+        .tp-text {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            line-height: 1.55;
+        }
+        .tp-text strong {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        /* ========= INTEL GRID ========= */
+        .intel-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+        }
+        .intel-card {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius-sm);
+            padding: 1.15rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .intel-card h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--blue-500);
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+        }
+        .intel-card p {
+            font-size: 0.82rem;
+            color: var(--gray-500);
+            line-height: 1.55;
+        }
+
+        /* ========= CHEAT SHEET ========= */
+        .cheat-sheet {
+            background: var(--white);
+            border: 1.5px solid var(--blue-200);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .cheat-sheet::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--blue-50) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .cs-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--blue-600);
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+        .cs-row {
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            gap: 1rem;
+            padding: 0.55rem 0;
+            border-bottom: 1px solid var(--gray-50);
+            font-size: 0.82rem;
+            position: relative;
+        }
+        .cs-row:last-child { border-bottom: none; }
+        .cs-key {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        .cs-val { color: var(--navy); font-weight: 500; }
+        .cs-val-accent { color: var(--blue-600); font-weight: 600; }
+        .cs-val-red { color: var(--red); font-weight: 500; }
+        .cs-val-green { color: var(--green); font-weight: 600; }
+
+        /* ========= RESPONSIVE ========= */
+        @media (max-width: 1024px) {
+            .intel-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .header, .edge-strip, .competitor-nav, .main { padding-left: 1.25rem; padding-right: 1.25rem; }
+            .overview-grid, .tp-grid { grid-template-columns: 1fr; }
+            .edge-strip-inner { grid-template-columns: repeat(2, 1fr); }
+            .edge-item:nth-child(5) { grid-column: span 2; }
+            .intel-grid { grid-template-columns: 1fr; }
+            .header-title { font-size: 1.5rem; }
+            .killer-line { padding: 1.75rem; }
+            .killer-line .kl-text { font-size: 1.1rem; }
+        }
+
+        /* ========= PRINT ========= */
+        @media print {
+            .competitor-nav { position: relative; box-shadow: none; }
+            .battle-card { page-break-inside: avoid; }
+            .objection-card, .tp-card, .intel-card { box-shadow: none; border: 1px solid #ddd; }
+            .killer-line { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-inner">
+        <div>
+            <div class="header-title"><span>Techolution</span> Battle Cards</div>
+            <div class="header-sub">What we do better &mdash; and how to counter every objection</div>
+        </div>
+    </div>
+</div>
+
+<!-- EDGE STRIP -->
+<div class="edge-strip">
+    <div class="edge-strip-inner">
+        <div class="edge-item">
+            <div class="edge-value">&lt;30 Days</div>
+            <div class="edge-label">Speed to Value</div>
+        </div>
+        <div class="edge-item">
+            <div class="edge-value">Fixed-Bid</div>
+            <div class="edge-label">ROI Guarantee</div>
+        </div>
+        <div class="edge-item">
+            <div class="edge-value">BPA 4.0</div>
+            <div class="edge-label">Enterprise Automation</div>
+        </div>
+        <div class="edge-item">
+            <div class="edge-value">Low Risk</div>
+            <div class="edge-label">Money-Back Guarantee</div>
+        </div>
+        <div class="edge-item">
+            <div class="edge-value">Full Stack</div>
+            <div class="edge-label">AI + Robotics + Systems</div>
+        </div>
+    </div>
+</div>
+
+<!-- COMPETITOR NAV -->
+<div class="competitor-nav">
+    <div class="competitor-nav-inner" id="compNav"></div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="mainContent"></div>
+
+<script>
+const TECH = {
+    positioning: "Full Enterprise Automation (BPA 4.0)",
+    hook: "Guaranteed ROI + Automation Outcomes",
+    gemini: "Embedded in end-to-end automation workflows",
+    speed: "<30 days (guaranteed ROI)",
+    pricing: "Fixed-bid + ROI guarantee",
+    risk: "Low (money-back / ROI guarantee)",
+    aiDepth: "Full stack: AI + Robotics + Real-world systems",
+    diff: "BPA 4.0 + AI Shoring + GGC governance",
+    cloud: "Flexible / can be multi-cloud",
+    target: "Enterprises seeking real ROI fast"
+};
+
+const C = [
+    {
+        id:"sada", name:"SADA", type:"Google Cloud Partner",
+        positioning:"Google-native AI + ROI", hook:"AI with ROI",
+        gemini:"Gemini as AI 'front door'", speed:"~4 weeks",
+        pricing:"Structured packages", risk:"Medium",
+        aiDepth:"Strong (Google-focused)", diff:"Adoption framework",
+        cloud:"100% Google", target:"Mid–large enterprises",
+        vsLine:"Template-driven deployments limit deep enterprise customization",
+        killer:"SADA gives you templates. We give you outcomes. Their packaged approach can't handle the complexity of real enterprise environments.",
+        objections:[
+            {o:"SADA is a top Google Cloud partner with strong Gemini campaigns",r:"Being Google-only is a limitation, not a strength. We embed Gemini in end-to-end automation workflows, not just as a front door.",d:"SADA's 100% Google lock-in means you can't leverage best-of-breed from AWS or Azure. Techolution is multi-cloud flexible."},
+            {o:"They have structured packages that make pricing predictable",r:"Structured packages = cookie-cutter solutions. We do fixed-bid with ROI guarantee — you pay for outcomes, not templates.",d:"Their adoption framework is one-size-fits-all. Our BPA 4.0 is customized to your specific enterprise workflows."},
+            {o:"SADA's speed to value is also around 4 weeks",r:"Similar timeline, but we guarantee ROI. If we don't deliver, you get your money back. Ask SADA if they'll match that.",d:"Our <30 day guarantee comes with financial accountability. SADA's ~4 weeks is an estimate, not a commitment."}
+        ],
+        tp:[
+            "<strong>Google lock-in risk:</strong> SADA is 100% Google. If your needs span AWS or Azure, you're stuck. We're multi-cloud.",
+            "<strong>Template vs. custom:</strong> Their structured packages are pre-built templates. Enterprise problems need enterprise-grade customization — that's BPA 4.0.",
+            "<strong>No financial accountability:</strong> We put our money where our mouth is with ROI guarantees. SADA offers adoption frameworks, not outcome guarantees.",
+            "<strong>Shallow AI stack:</strong> SADA is strong on Google AI tools but lacks robotics and real-world systems integration. We do full-stack.",
+            "<strong>Gemini depth:</strong> They use Gemini as an entry point. We embed it in complete automation workflows that drive measurable business outcomes."
+        ],
+        intel:{pos:"Gemini-focused campaigns, high visibility, strong Google partnership marketing",str:"Very high Gemini-specific marketing, strong adoption framework messaging",weak:"Single-cloud dependency limits enterprise appeal, template approach doesn't scale",hooks:"AI with ROI, Gemini readiness, Google-native"}
+    },
+    {
+        id:"quantiphi", name:"Quantiphi", type:"AI Partner",
+        positioning:"AI-first engineering", hook:"Outcome-driven AI",
+        gemini:"Gemini as agentic platform", speed:"Fast via accelerators",
+        pricing:"Outcome-based (TSaaS)", risk:"Medium",
+        aiDepth:"Very strong (AI IP)", diff:"Proprietary AI products",
+        cloud:"Multi-cloud (GCP + AWS)", target:"Large enterprises",
+        vsLine:"Outcome-driven messaging without financial accountability (no ROI guarantee)",
+        killer:"Quantiphi talks about outcomes. We guarantee them. They have proprietary AI products — we have proprietary AI results with your money back if we don't deliver.",
+        objections:[
+            {o:"Quantiphi has very strong AI IP and proprietary products",r:"Proprietary products mean vendor lock-in. Our BPA 4.0 delivers full enterprise automation without chaining you to our IP.",d:"Their AI depth is real, but it's product-centric. We integrate AI + Robotics + real-world systems — broader and deeper."},
+            {o:"They offer outcome-based pricing (TSaaS)",r:"Outcome-based sounds great until you realize there's no guarantee. We do fixed-bid with money-back ROI guarantee.",d:"TSaaS can balloon costs unpredictably. Fixed-bid means you know exactly what you're paying."},
+            {o:"Quantiphi has fast delivery via accelerators",r:"Fast via accelerators ≠ guaranteed fast. We commit to <30 days with contractual ROI guarantees.",d:"Accelerators are starting templates. Our speed comes from proven end-to-end automation methodology."}
+        ],
+        tp:[
+            "<strong>Talk vs. guarantee:</strong> Quantiphi's 'outcome-driven' messaging is marketing. We back it with contractual ROI guarantees and money-back commitment.",
+            "<strong>AI depth comparison:</strong> They're very strong in AI IP, but narrow. We cover AI + Robotics + real-world systems — the full stack.",
+            "<strong>Multi-cloud edge:</strong> Both do multi-cloud, but our approach isn't tied to proprietary products that favor one platform.",
+            "<strong>Financial accountability:</strong> TSaaS pricing can become unpredictable at scale. Fixed-bid means budget certainty from day one.",
+            "<strong>Speed commitment:</strong> Their 'fast via accelerators' is aspirational. Our <30 days is contractual."
+        ],
+        intel:{pos:"Applied AI solutions, data + Gemini positioning, medium-high visibility",str:"Strong AI engineering talent, proprietary products create stickiness",weak:"No financial guarantee behind outcome claims, product lock-in risk",hooks:"Outcome-driven AI, agentic platform, applied AI solutions"}
+    },
+    {
+        id:"cognizant", name:"Cognizant", type:"Global SI",
+        positioning:"AI at enterprise scale", hook:"AI operating model",
+        gemini:"Gemini in AI-native ops model", speed:"Slow (enterprise cycles)",
+        pricing:"Resource-based", risk:"High",
+        aiDepth:"Strong (platforms)", diff:"Platforms (Neuro, Flowsource)",
+        cloud:"Multi-cloud", target:"Global 2000",
+        vsLine:"High-cost, slow-moving delivery model driven by legacy scale and overhead",
+        killer:"Cognizant sells scale. We sell speed. Their enterprise cycles take months — we deliver guaranteed ROI in under 30 days at a fraction of the cost.",
+        objections:[
+            {o:"Cognizant has massive scale and serves the Global 2000",r:"Scale doesn't mean speed. Their size creates overhead that slows delivery. We give you enterprise capability without enterprise bloat.",d:"Global 2000 clients often complain about slow Cognizant delivery cycles."},
+            {o:"They have platforms like Neuro and Flowsource",r:"Platform lock-in with Cognizant-specific tools. Our BPA 4.0 integrates with your existing stack — no forced migration.",d:"Neuro and Flowsource add complexity. Our approach simplifies automation with guaranteed outcomes."},
+            {o:"Cognizant's resource-based pricing gives flexibility",r:"Resource-based pricing means open-ended costs. You're paying for headcount, not outcomes. We do fixed-bid tied to results.",d:"Resource-based = you pay whether they deliver or not. Fixed-bid + ROI guarantee = we eat the cost if we don't deliver."},
+            {o:"They have deep multi-cloud capabilities",r:"So do we — but without the overhead cost. We're multi-cloud flexible and deliver in weeks, not months.",d:"Multi-cloud is table stakes. The real question is speed and accountability."}
+        ],
+        tp:[
+            "<strong>Speed gap:</strong> Cognizant's enterprise cycles are notoriously slow. We contractually guarantee ROI in <30 days — that's not even their discovery phase.",
+            "<strong>Cost trap:</strong> Resource-based pricing means you pay for bodies, not results. Every week of delay is more burn.",
+            "<strong>Platform lock-in:</strong> Neuro and Flowsource are proprietary platforms that create long-term dependency. BPA 4.0 works with your existing systems.",
+            "<strong>Overhead tax:</strong> You're funding Cognizant's massive overhead — layers of management, global coordination, legacy processes.",
+            "<strong>Risk reversal:</strong> High risk (no guarantees, open-ended fees) vs. our low risk (money-back, fixed-bid)."
+        ],
+        intel:{pos:"Enterprise modernization, automation positioning, medium campaign visibility",str:"Massive brand recognition, Global 2000 client base, multi-cloud depth",weak:"Slow delivery, high cost, resource-based model misaligned with outcomes",hooks:"AI operating model, enterprise scale, AI-native ops"}
+    },
+    {
+        id:"deloitte", name:"Deloitte", type:"Consulting",
+        positioning:"Agentic transformation", hook:"Agentic AI journey",
+        gemini:"Multi-agent ecosystem", speed:"Slow (heavy discovery)",
+        pricing:"High consulting fees", risk:"High",
+        aiDepth:"Strong (multi-agent)", diff:"300+ agents",
+        cloud:"Multi-cloud", target:"Fortune 500",
+        vsLine:"Over-engineered transformation approach that delays time-to-value",
+        killer:"Deloitte will spend 6 months telling you what to do. We'll have it done in 30 days — with a guarantee they'd never offer.",
+        objections:[
+            {o:"Deloitte has 300+ AI agents and a massive consulting bench",r:"300+ agents sounds impressive until you realize you're paying Fortune 500 rates for a 6-month discovery before any deploy.",d:"Agent count is a vanity metric. What matters is time-to-value and ROI."},
+            {o:"They're trusted by Fortune 500 companies",r:"Fortune 500s hire Deloitte for the brand safety, not the speed. If you want actual results in under 30 days, that's us.",d:"The same Fortune 500s are increasingly frustrated with Deloitte's slow timelines and high fees."},
+            {o:"Deloitte's governance and compliance focus is important for regulated industries",r:"We have GGC governance built into BPA 4.0 from day one — without the 6-month discovery tax.",d:"Our AI Shoring + GGC governance handles compliance without the traditional consulting overhead."},
+            {o:"Their multi-agent ecosystem is cutting edge",r:"Multi-agent is our game too — embedded in actual automation workflows, not PowerPoint decks.",d:"Deloitte's agentic transformation is heavy on strategy, light on execution speed."}
+        ],
+        tp:[
+            "<strong>Discovery tax:</strong> Deloitte's heavy discovery phase eats months and millions before any value is delivered.",
+            "<strong>Consulting fee premium:</strong> You're paying $500-800/hr consulting rates. Our fixed-bid model means you pay for outcomes, not hours.",
+            "<strong>Over-engineering:</strong> 300+ agents sounds impressive but creates complexity. We focus on agents that deliver ROI.",
+            "<strong>Governance built-in:</strong> They sell governance as a separate workstream. Our GGC governance is embedded — not an add-on.",
+            "<strong>Risk comparison:</strong> High risk (no outcome guarantee, open-ended fees) vs. our low risk (money-back, fixed-bid)."
+        ],
+        intel:{pos:"Enterprise readiness, governance & compliance, high campaign visibility",str:"Brand trust, Fortune 500 relationships, 300+ agents narrative",weak:"Glacial speed, extremely high costs, over-engineered approach",hooks:"Agentic AI journey, multi-agent ecosystem, enterprise readiness"}
+    },
+    {
+        id:"dito", name:"Dito", type:"Workspace Partner",
+        positioning:"Security-first AI", hook:"Secure AI adoption",
+        gemini:"AI taskforce", speed:"Moderate",
+        pricing:"Premium", risk:"Medium",
+        aiDepth:"Strong (security layer)", diff:"Security frameworks",
+        cloud:"Google-centric", target:"Public sector + enterprise",
+        vsLine:"Over-structured, security-heavy delivery model that slows business impact",
+        killer:"Dito wraps AI in so much security theater that business value gets buried. We build security in without slowing down — and guarantee the ROI.",
+        objections:[
+            {o:"Dito's security-first approach is essential for public sector",r:"Security is non-negotiable, agreed. But security-first shouldn't mean value-last. Our GGC governance delivers security AND speed.",d:"Our approach bakes security into the automation workflow — not a separate gating layer."},
+            {o:"They have strong Gemini training programs",r:"Training is enablement. We deliver working automation. Your team doesn't need to become AI experts — they need AI that works on day one.",d:"Dito trains your team to use Gemini. We deliver Gemini-embedded workflows that produce results immediately."},
+            {o:"Dito is trusted in public sector",r:"Our compliance-embedded approach meets the same standards with faster time-to-value.",d:"We serve enterprises with strict compliance needs and deliver in <30 days."}
+        ],
+        tp:[
+            "<strong>Security ≠ slow:</strong> Their over-structured security model creates friction. We embed security without slowing business impact.",
+            "<strong>Google lock-in:</strong> Google-centric approach limits flexibility. We're multi-cloud with Gemini embedded where it matters.",
+            "<strong>Training vs. doing:</strong> Dito focuses on training programs. We focus on deployed, working automation that delivers ROI.",
+            "<strong>Speed gap:</strong> Moderate speed vs. our guaranteed <30 days.",
+            "<strong>Pricing:</strong> Premium pricing without ROI guarantee vs. our fixed-bid with money-back commitment."
+        ],
+        intel:{pos:"Security-first AI, Gemini training, high Workspace visibility",str:"Strong security narrative, public sector credibility, Gemini training",weak:"Over-structured delivery, Google dependency, speed limitation",hooks:"Secure AI adoption, AI taskforce, security frameworks"}
+    },
+    {
+        id:"slalom", name:"Slalom", type:"Consulting Partner",
+        positioning:"Human-centric AI", hook:"Human adoption",
+        gemini:"Role-based adoption", speed:"Moderate",
+        pricing:"Consulting-heavy", risk:"Medium",
+        aiDepth:"Moderate", diff:"Change management",
+        cloud:"Multi-cloud", target:"Public sector",
+        vsLine:"Consulting-led approach prioritizes change management over execution speed",
+        killer:"Slalom will run workshops about AI adoption while we're delivering working automation. Change management matters — but not more than actual results.",
+        objections:[
+            {o:"Slalom's human-centric approach ensures better adoption",r:"Adoption follows value. Deliver ROI in 30 days and adoption takes care of itself.",d:"The best change management is a system that delivers visible results fast."},
+            {o:"They have strong Gemini workshops and enablement",r:"Workshops don't deliver ROI. Working automation does. We embed Gemini in workflows — not slide decks.",d:"Role-based adoption is consulting overhead disguised as enablement."},
+            {o:"Slalom is strong in public sector",r:"Public sector needs results too, not just workshops. We deliver compliant automation fast.",d:"Our GGC governance meets public sector requirements without consulting-heavy overhead."}
+        ],
+        tp:[
+            "<strong>Consulting overhead:</strong> Change management focus means you pay for workshops before seeing any automation value.",
+            "<strong>Moderate AI depth:</strong> Slalom's AI capability is moderate at best. We're full-stack: AI + Robotics + real-world systems.",
+            "<strong>Execution gap:</strong> They prioritize adoption over execution speed. Fast results drive natural adoption.",
+            "<strong>Cost structure:</strong> Consulting-heavy pricing with no outcome guarantee vs. our fixed-bid + ROI guarantee.",
+            "<strong>Speed:</strong> Moderate delivery vs. guaranteed <30 days. Results speak louder than workshops."
+        ],
+        intel:{pos:"Hands-on AI adoption, human-centric, Gemini workshops & enablement",str:"Strong change management narrative, public sector credibility",weak:"Consulting-first delays execution, moderate AI depth, no financial accountability",hooks:"Human adoption, role-based adoption, change management"}
+    },
+    {
+        id:"epam", name:"EPAM Systems", type:"Engineering Partner",
+        positioning:"AI-native engineering", hook:"Engineering excellence",
+        gemini:"Agentic workflows", speed:"Moderate–slow",
+        pricing:"High engineering cost", risk:"High",
+        aiDepth:"Very strong (engineering)", diff:"AI/RUN platform",
+        cloud:"Multi-cloud", target:"Enterprise engineering",
+        vsLine:"Complex, engineering-heavy implementations with longer path to value realization",
+        killer:"EPAM builds impressive engineering — eventually. We deliver the same outcomes in <30 days while they're still architecting.",
+        objections:[
+            {o:"EPAM has very strong engineering capabilities and the AI/RUN platform",r:"Engineering depth is great — but time-to-value matters more. Their complex implementations take months.",d:"AI/RUN adds complexity. BPA 4.0 integrates seamlessly with existing systems."},
+            {o:"They build custom Gemini solutions",r:"Custom is good, but custom + slow + expensive = bad. We deliver custom automation fast, at fixed cost, with guarantee.",d:"Our Gemini integration is embedded in proven workflows, not built from scratch each time."},
+            {o:"EPAM has deep engineering talent",r:"We do too — plus robotics and real-world systems. And we don't charge high engineering rates with no outcome guarantee.",d:"Our full-stack (AI + Robotics + physical systems) goes beyond pure software engineering."}
+        ],
+        tp:[
+            "<strong>Complexity trap:</strong> EPAM over-engineers solutions. Complex = longer path to value. We optimize for speed-to-ROI.",
+            "<strong>Cost burden:</strong> High engineering costs with no outcome guarantee vs. our fixed-bid tied to results.",
+            "<strong>Speed:</strong> Moderate-to-slow vs. our guaranteed <30 days.",
+            "<strong>Full stack advantage:</strong> EPAM is strong in software engineering. We add robotics and real-world systems.",
+            "<strong>Risk:</strong> High risk (complex, expensive, no guarantee) vs. low risk (fixed-bid, money-back)."
+        ],
+        intel:{pos:"Engineering-driven AI, custom Gemini solutions, medium visibility",str:"Deep engineering talent, AI/RUN platform, agentic workflows",weak:"Over-complexity, slow delivery, high costs, no ROI guarantee",hooks:"Engineering excellence, agentic workflows, AI-native engineering"}
+    },
+    {
+        id:"onix", name:"Onix", type:"Google Cloud Partner",
+        positioning:"Data-first AI", hook:"Fix data first",
+        gemini:"Data → Gemini enablement", speed:"Fast (data prep first)",
+        pricing:"Project-based", risk:"Medium",
+        aiDepth:"Strong (data + RAG)", diff:"Data pipelines",
+        cloud:"Google-only", target:"Mid-large enterprises",
+        vsLine:"Data-first dependency delays business outcomes and immediate ROI realization",
+        killer:"Onix tells you to fix your data before AI can work. We deliver ROI with your data as-is in <30 days. Perfect data is the enemy of good results.",
+        objections:[
+            {o:"Onix's data-first approach ensures AI works correctly",r:"Data-first is a delay tactic. We work with your data as-is and still guarantee ROI in <30 days.",d:"Their data pipeline dependency creates a prerequisite barrier. BPA 4.0 handles messy enterprise data."},
+            {o:"They have strong RAG and data pipeline capabilities",r:"RAG is one technique. We offer full-stack automation including data handling without making it a gating prerequisite.",d:"Data pipelines are table stakes. The differentiator is speed-to-value."},
+            {o:"Onix is fast once data is ready",r:"'Once data is ready' is the catch. Data prep can take months. We deliver in <30 days, data readiness included.",d:"Their speed is conditional. Ours is guaranteed."}
+        ],
+        tp:[
+            "<strong>Data-first = delay:</strong> Their approach requires data readiness before AI deployment. That's months of prep before any value.",
+            "<strong>Google-only limitation:</strong> If you need AWS or Azure capabilities, they can't help.",
+            "<strong>Conditional speed:</strong> 'Fast once data is ready' — but data readiness takes months. Our speed is unconditional.",
+            "<strong>Narrow stack:</strong> Data + RAG is valuable but limited. We offer AI + Robotics + real-world systems.",
+            "<strong>ROI guarantee:</strong> Project-based with no outcome guarantee vs. our fixed-bid + money-back."
+        ],
+        intel:{pos:"Gemini readiness, data-first AI, strong Gemini messaging",str:"Strong data pipeline expertise, RAG capabilities, fast post-data-prep",weak:"Data prerequisite delays value, Google-only limits flexibility",hooks:"Fix data first, data-first AI, Gemini enablement"}
+    },
+    {
+        id:"capgemini", name:"Capgemini", type:"Global SI",
+        positioning:"Sovereign AI & scale", hook:"Proof of impact",
+        gemini:"Gemini + sovereign infra", speed:"Slow",
+        pricing:"Enterprise premium", risk:"High",
+        aiDepth:"Strong (infra + compliance)", diff:"RAISE framework",
+        cloud:"Multi-cloud", target:"Fortune 100",
+        vsLine:"Enterprise-scale complexity with high cost and long transformation cycles",
+        killer:"Capgemini charges Fortune 100 prices to deliver at Fortune 100 speed — which means slow. We deliver the same enterprise outcomes in <30 days at a fixed price.",
+        objections:[
+            {o:"Capgemini has the RAISE framework and sovereign AI capabilities",r:"Frameworks are consulting products — they generate billable hours, not fast results. BPA 4.0 is an execution engine.",d:"RAISE is a methodology. BPA 4.0 is proven automation that delivers ROI."},
+            {o:"They serve Fortune 100 with deep compliance expertise",r:"We serve enterprises with strict compliance needs too — with GGC governance built in. The difference is we do it in <30 days.",d:"Compliance expertise doesn't require Fortune 100 pricing or glacial timelines."},
+            {o:"Capgemini has massive global scale",r:"Scale = overhead = slow. You're paying for their global organization, not for your results.",d:"Every layer of global SI overhead adds cost and delay to your project."}
+        ],
+        tp:[
+            "<strong>Enterprise premium trap:</strong> Fortune 100 pricing doesn't mean Fortune 100 results. It means Fortune 100 overhead in your invoice.",
+            "<strong>Speed:</strong> Slow transformation cycles. Our <30 day guarantee is faster than their typical scoping phase.",
+            "<strong>Framework vs. execution:</strong> RAISE is a framework. BPA 4.0 is an execution engine that delivers measurable ROI.",
+            "<strong>Risk mismatch:</strong> High risk (no guarantee, premium pricing) vs. low risk (money-back, fixed-bid, <30 days).",
+            "<strong>Compliance built-in:</strong> GGC governance handles sovereign/compliance requirements without the premium price tag."
+        ],
+        intel:{pos:"Intelligent enterprise, sovereign AI, medium campaign visibility",str:"Massive global reach, compliance depth, RAISE framework narrative",weak:"Extremely slow, very expensive, complexity adds delay not value",hooks:"Proof of impact, sovereign AI, Gemini + sovereign infra"}
+    },
+    {
+        id:"softserve", name:"SoftServe", type:"Engineering Partner",
+        positioning:"Industrial AI + modernization", hook:"ROI in 4 weeks",
+        gemini:"Gemini + APIs & agents", speed:"~4 weeks",
+        pricing:"Accelerator-based", risk:"Medium",
+        aiDepth:"Strong (API + agents)", diff:"Agentic launchpad",
+        cloud:"Multi-cloud", target:"Industrial sectors",
+        vsLine:"Modernization-first approach creates barriers to rapid AI deployment",
+        killer:"SoftServe says 'ROI in 4 weeks' but leads with modernization — which adds months before AI even starts. We deliver guaranteed ROI in <30 days, modernization included.",
+        objections:[
+            {o:"SoftServe promises ROI in 4 weeks with their accelerator approach",r:"Their 4-week claim is for the accelerator phase — after modernization prerequisites. Our <30 days is all-inclusive.",d:"Modernization-first creates a prerequisite barrier. We deliver without forcing you to modernize first."},
+            {o:"They have an agentic launchpad for fast AI agent deployment",r:"Launchpad is a starting kit, not an end-to-end solution. BPA 4.0 is complete enterprise automation with guaranteed outcomes.",d:"Agentic launchpad is a product accelerator. Our approach has financial accountability."},
+            {o:"SoftServe focuses on industrial sectors where they have deep expertise",r:"We serve enterprises across sectors with AI + Robotics + real-world systems. Industrial is one of our strengths, not our only lane.",d:"Our full-stack capability is broader: AI + Robotics + physical systems integration."}
+        ],
+        tp:[
+            "<strong>Modernization tax:</strong> Their modernization-first approach delays AI deployment. We deploy AI alongside existing systems.",
+            "<strong>4-week asterisk:</strong> 'ROI in 4 weeks' comes after modernization prerequisites. Our <30 days is unconditional.",
+            "<strong>Launchpad vs. platform:</strong> Agentic launchpad is a starter kit. BPA 4.0 is full enterprise automation.",
+            "<strong>Financial guarantee:</strong> Accelerator-based pricing with medium risk vs. our fixed-bid + money-back (low risk).",
+            "<strong>Full stack:</strong> They're strong in APIs + agents. We add robotics and real-world systems."
+        ],
+        intel:{pos:"AI engineering, custom enterprise AI, medium campaign visibility",str:"Industrial sector focus, agentic launchpad, 4-week ROI messaging",weak:"Modernization prerequisite delays value, narrower than full-stack",hooks:"ROI in 4 weeks, Gemini + APIs & agents, agentic launchpad"}
+    }
+];
+
+// Build nav
+const nav = document.getElementById('compNav');
+C.forEach((c,i) => {
+    const b = document.createElement('button');
+    b.className = 'comp-btn' + (i===0?' active':'');
+    b.textContent = c.name;
+    b.dataset.id = c.id;
+    b.onclick = () => {
+        document.querySelectorAll('.comp-btn').forEach(x=>x.classList.toggle('active',x.dataset.id===c.id));
+        document.querySelectorAll('.battle-card').forEach(x=>x.classList.toggle('active',x.id==='card-'+c.id));
+    };
+    nav.appendChild(b);
+});
+
+// Build cards
+const main = document.getElementById('mainContent');
+C.forEach((c,idx) => {
+    const dims = [
+        {d:"Core Positioning", us:TECH.positioning, them:c.positioning, w:"win"},
+        {d:"Primary Hook", us:TECH.hook, them:c.hook, w:"win"},
+        {d:"Gemini Strategy", us:TECH.gemini, them:c.gemini, w:"win"},
+        {d:"Speed to Value", us:TECH.speed, them:c.speed, w:c.speed.includes("Slow")||c.speed.includes("Moderate")?"win":"even"},
+        {d:"Pricing Model", us:TECH.pricing, them:c.pricing, w:"win"},
+        {d:"Risk Model", us:TECH.risk, them:c.risk, w:c.risk==="High"?"win":"win"},
+        {d:"AI Capability", us:TECH.aiDepth, them:c.aiDepth, w:"win"},
+        {d:"Differentiation", us:TECH.diff, them:c.diff, w:"win"},
+        {d:"Cloud Strategy", us:TECH.cloud, them:c.cloud, w:c.cloud.includes("only")||c.cloud.includes("centric")||c.cloud==="100% Google"?"win":"even"},
+        {d:"Target Market", us:TECH.target, them:c.target, w:"even"}
+    ];
+
+    const card = document.createElement('div');
+    card.className = 'battle-card'+(idx===0?' active':'');
+    card.id = 'card-'+c.id;
+
+    card.innerHTML = `
+    <!-- Killer -->
+    <div class="killer-line">
+        <div class="kl-label">One-Line Pitch vs ${c.name}</div>
+        <div class="kl-text">${c.killer}</div>
+    </div>
+
+    <!-- Overview -->
+    <div class="section-title"><h2>Head-to-Head</h2></div>
+    <div class="overview-grid">
+        <div class="overview-box is-us">
+            <div class="ob-header"><h3>Techolution</h3><span class="ob-tag ob-tag-us">Us</span></div>
+            <div class="ob-row"><span class="ob-key">Type</span><span class="ob-val">Full Enterprise Automation</span></div>
+            <div class="ob-row"><span class="ob-key">Positioning</span><span class="ob-val">${TECH.positioning}</span></div>
+            <div class="ob-row"><span class="ob-key">Speed</span><span class="ob-val">${TECH.speed}</span></div>
+            <div class="ob-row"><span class="ob-key">Pricing</span><span class="ob-val">${TECH.pricing}</span></div>
+            <div class="ob-row"><span class="ob-key">Risk</span><span class="ob-val">${TECH.risk}</span></div>
+            <div class="ob-row"><span class="ob-key">AI Depth</span><span class="ob-val">${TECH.aiDepth}</span></div>
+        </div>
+        <div class="overview-box is-them">
+            <div class="ob-header"><h3>${c.name}</h3><span class="ob-tag ob-tag-them">Them</span></div>
+            <div class="ob-row"><span class="ob-key">Type</span><span class="ob-val">${c.type}</span></div>
+            <div class="ob-row"><span class="ob-key">Positioning</span><span class="ob-val">${c.positioning}</span></div>
+            <div class="ob-row"><span class="ob-key">Speed</span><span class="ob-val">${c.speed}</span></div>
+            <div class="ob-row"><span class="ob-key">Pricing</span><span class="ob-val">${c.pricing}</span></div>
+            <div class="ob-row"><span class="ob-key">Risk</span><span class="ob-val">${c.risk}</span></div>
+            <div class="ob-row"><span class="ob-key">AI Depth</span><span class="ob-val">${c.aiDepth}</span></div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="section-title"><h2>Dimension Comparison</h2></div>
+    <div class="table-wrap">
+        <table class="comp-table">
+            <thead><tr><th>Dimension</th><th>Techolution</th><th>${c.name}</th><th>Edge</th></tr></thead>
+            <tbody>${dims.map(d=>`<tr>
+                <td class="col-dim">${d.d}</td>
+                <td class="col-us">${d.us}</td>
+                <td class="col-them">${d.them}</td>
+                <td class="col-edge">${d.w==='win'?'<span class="edge-win">Techolution</span>':'<span class="edge-even">Even</span>'}</td>
+            </tr>`).join('')}</tbody>
+        </table>
+    </div>
+
+    <!-- Weakness -->
+    <div class="section-title"><h2>Their Core Weakness</h2></div>
+    <div class="weakness-box">
+        <div class="weakness-icon">!</div>
+        <div>
+            <h4>${c.name}'s Achilles Heel</h4>
+            <p>${c.vsLine}</p>
+        </div>
+    </div>
+
+    <!-- Objections -->
+    <div class="section-title"><h2>Objection Handler</h2></div>
+    <div class="objections-grid">${c.objections.map(o=>`
+        <div class="objection-card">
+            <div class="oc-objection">"${o.o}"</div>
+            <div class="oc-rebuttal">${o.r}</div>
+            <div class="oc-detail">${o.d}</div>
+        </div>`).join('')}
+    </div>
+
+    <!-- Talking Points -->
+    <div class="section-title"><h2>Quick Talking Points</h2></div>
+    <div class="tp-grid">${c.tp.map((t,i)=>`
+        <div class="tp-card">
+            <div class="tp-num">${i+1}</div>
+            <div class="tp-text">${t}</div>
+        </div>`).join('')}
+    </div>
+
+    <!-- Intel -->
+    <div class="section-title"><h2>Content & Marketing Intel</h2></div>
+    <div class="intel-grid">
+        <div class="intel-card"><h4>Their Positioning</h4><p>${c.intel.pos}</p></div>
+        <div class="intel-card"><h4>Their Strengths</h4><p>${c.intel.str}</p></div>
+        <div class="intel-card"><h4>Their Weaknesses</h4><p>${c.intel.weak}</p></div>
+        <div class="intel-card"><h4>Their Hooks</h4><p>${c.intel.hooks}</p></div>
+    </div>
+
+    <!-- Cheat Sheet -->
+    <div class="section-title"><h2>Quick Reference</h2></div>
+    <div class="cheat-sheet">
+        <div class="cs-title">Techolution vs ${c.name}</div>
+        <div class="cs-row"><span class="cs-key">They Say</span><span class="cs-val">"${c.hook}"</span></div>
+        <div class="cs-row"><span class="cs-key">We Say</span><span class="cs-val cs-val-accent">"${TECH.hook}" — with a money-back guarantee</span></div>
+        <div class="cs-row"><span class="cs-key">Their Speed</span><span class="cs-val">${c.speed}</span></div>
+        <div class="cs-row"><span class="cs-key">Our Speed</span><span class="cs-val cs-val-accent">${TECH.speed}</span></div>
+        <div class="cs-row"><span class="cs-key">Their Risk</span><span class="cs-val">${c.risk}</span></div>
+        <div class="cs-row"><span class="cs-key">Our Risk</span><span class="cs-val cs-val-green">${TECH.risk}</span></div>
+        <div class="cs-row"><span class="cs-key">Their Pricing</span><span class="cs-val">${c.pricing}</span></div>
+        <div class="cs-row"><span class="cs-key">Our Pricing</span><span class="cs-val cs-val-accent">${TECH.pricing}</span></div>
+        <div class="cs-row"><span class="cs-key">Weakness</span><span class="cs-val cs-val-red">${c.vsLine}</span></div>
+        <div class="cs-row"><span class="cs-key">Our Edge</span><span class="cs-val cs-val-green">BPA 4.0 + AI Shoring + GGC governance + Money-back ROI guarantee</span></div>
+    </div>`;
+
+    main.appendChild(card);
+});
+</script>
+</body>
+</html>
